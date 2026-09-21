@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CategoryType {
+  income
+  fixed
+  variable
+  savings
+  debt
+}
+
+enum TransactionType {
+  variable
+  savings
+  debt_payment
+}
+
+enum TransactionSource {
+  manual
+  bank
+}
+
+enum SavingsMode {
+  fixed
+  percentage
+}
+
+enum BankConnectionStatus {
+  connected
+  error
+  syncing
+}
+
+model User {
+  id        String   @id @default(cuid())
+  pinHash   String
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id        String       @id @default(cuid())
+  name      String
+  type      CategoryType
+  icon      String       @default("💸")
+  isDefault Boolean      @default(false)
+  createdAt DateTime     @default(now())
+
+  fixedExpenses  FixedExpense[]
+  transactions   Transaction[]
+  quickTemplates QuickTemplate[]
+
+  @@unique([name, type])
+}
+
+model QuickTemplate {
+  id             String   @id @default(cuid())
+  label          String
+  emoji          String   @default("💸")
+  defaultAmount  Int?
+  categoryId     String
+  category       Category @relation(fields: [categoryId], references: [id])
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+}
+
+model Income {
+  id          String   @id @default(cuid())
+  description String
+  amount      Int
+  date        DateTime @default(now())
+  recurring   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model FixedExpense {
+  id          String   @id @default(cuid())
+  description String
+  amount      Int
+  dueDay      Int      @default(1)
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model SavingsRule {
+  id        String      @id @default(cuid())
+  mode      SavingsMode
+  value     Int
+  active    Boolean     @default(true)
+  createdAt DateTime    @default(now())
+}
+
+model Transaction {
+  id            String            @id @default(cuid())
+  amount        Int
+  description   String
+  date          DateTime          @default(now())
+  type          TransactionType
+  categoryId    String
+  category      Category          @relation(fields: [categoryId], references: [id])
+  source        TransactionSource @default(manual)
+  bankAccountId String?
+  bankAccount   BankAccount?      @relation(fields: [bankAccountId], references: [id])
+  createdAt     DateTime          @default(now())
+
+  @@index([date])
+  @@index([type])
+}
+
+model Debt {
+  id               String   @id @default(cuid())
+  name             String
+  institution      String
+  totalAmount      Int
+  remainingAmount  Int
+  minPayment       Int
+  dueDay           Int      @default(1)
+  createdAt        DateTime @default(now())
+}
+
+model BankConnection {
+  id              String                @id @default(cuid())
+  provider        String
+  institutionName String
+  status          BankConnectionStatus  @default(connected)
+  lastSyncedAt    DateTime?
+  lastError       String?
+  createdAt       DateTime              @default(now())
+
+  accounts BankAccount[]
+}
+
+model BankAccount {
+  id               String         @id @default(cuid())
+  bankConnectionId String
+  bankConnection   BankConnection @relation(fields: [bankConnectionId], references: [id])
+  name             String
+  type             String
+  balance          Int
+  currency         String         @default("COP")
+  externalId       String
+
+  transactions Transaction[]
+
+  @@unique([bankConnectionId, externalId])
+}

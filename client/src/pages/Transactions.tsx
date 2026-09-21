@@ -34,7 +34,7 @@ function EditTransactionRow({ transaction, onDone }: { transaction: Transaction;
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Nota"
-          className="flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none placeholder:text-slate-500"
+          className="min-w-0 flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none placeholder:text-slate-500"
         />
       </div>
       <select
@@ -85,22 +85,22 @@ export function Transactions() {
           editingId === t.id ? (
             <EditTransactionRow key={t.id} transaction={t} onDone={() => setEditingId(null)} />
           ) : (
-            <li key={t.id} className="flex items-center justify-between rounded-xl bg-slate-900 px-4 py-3">
+            <li key={t.id} className="flex items-center justify-between gap-2 rounded-xl bg-slate-900 px-4 py-3">
               <button
                 onClick={() => setEditingId(t.id)}
-                className="flex flex-1 items-center gap-3 text-left"
+                className="flex min-w-0 flex-1 items-center gap-3 text-left"
                 aria-label="Editar"
               >
                 <span className="text-xl">{t.category.icon}</span>
-                <div>
-                  <p className="text-sm text-slate-100">{t.description || t.category.name}</p>
-                  <p className="text-xs text-slate-500">
+                <div className="min-w-0">
+                  <p className="truncate text-sm text-slate-100">{t.description || t.category.name}</p>
+                  <p className="truncate text-xs text-slate-500">
                     {t.category.name} · {DATE_FORMAT.format(new Date(t.date))}
                     {t.source === "bank" ? " · banco" : ""}
                   </p>
                 </div>
               </button>
-              <div className="flex items-center gap-3">
+              <div className="flex shrink-0 items-center gap-3">
                 <span className="font-medium text-slate-100">{formatCOP(t.amount)}</span>
                 <button
                   onClick={() => deleteTransaction.mutate(t.id)}

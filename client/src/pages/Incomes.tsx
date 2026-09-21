@@ -106,12 +106,12 @@ export function Incomes() {
           editingId === i.id ? (
             <EditIncomeRow key={i.id} income={i} onDone={() => setEditingId(null)} />
           ) : (
-            <li key={i.id} className="flex items-center justify-between rounded-xl bg-slate-900 px-4 py-3">
-              <button onClick={() => setEditingId(i.id)} className="flex-1 text-left" aria-label="Editar">
-                <p className="text-sm text-slate-100">{i.description}</p>
+            <li key={i.id} className="flex items-center justify-between gap-2 rounded-xl bg-slate-900 px-4 py-3">
+              <button onClick={() => setEditingId(i.id)} className="min-w-0 flex-1 text-left" aria-label="Editar">
+                <p className="truncate text-sm text-slate-100">{i.description}</p>
                 <p className="text-xs text-slate-500">{i.recurring ? "Mensual" : "Único"}</p>
               </button>
-              <div className="flex items-center gap-3">
+              <div className="flex shrink-0 items-center gap-3">
                 <span className="font-medium text-emerald-400">{formatCOP(i.amount)}</span>
                 <button onClick={() => deleteIncome.mutate(i.id)} className="text-slate-500 hover:text-red-400">
                   ✕

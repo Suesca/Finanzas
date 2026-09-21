@@ -45,7 +45,7 @@ function EditFixedExpenseRow({ expense, onDone }: { expense: FixedExpense; onDon
           inputMode="numeric"
           value={amount}
           onChange={(e) => setAmount(e.target.value.replace(/[^\d]/g, ""))}
-          className="flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
+          className="min-w-0 flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
         />
         <input
           type="number"
@@ -53,7 +53,7 @@ function EditFixedExpenseRow({ expense, onDone }: { expense: FixedExpense; onDon
           max={31}
           value={dueDay}
           onChange={(e) => setDueDay(e.target.value)}
-          className="w-20 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
+          className="w-16 shrink-0 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
         />
       </div>
       <select
@@ -125,7 +125,7 @@ export function FixedExpenses() {
             value={amount}
             onChange={(e) => setAmount(e.target.value.replace(/[^\d]/g, ""))}
             placeholder="Monto"
-            className="flex-1 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none placeholder:text-slate-500"
+            className="min-w-0 flex-1 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none placeholder:text-slate-500"
           />
           <input
             type="number"
@@ -133,7 +133,7 @@ export function FixedExpenses() {
             max={31}
             value={dueDay}
             onChange={(e) => setDueDay(e.target.value)}
-            className="w-24 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none"
+            className="w-20 shrink-0 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none"
           />
         </div>
         <select
@@ -164,18 +164,18 @@ export function FixedExpenses() {
           editingId === f.id ? (
             <EditFixedExpenseRow key={f.id} expense={f} onDone={() => setEditingId(null)} />
           ) : (
-            <li key={f.id} className="flex items-center justify-between rounded-xl bg-slate-900 px-4 py-3">
-              <button onClick={() => setEditingId(f.id)} className="flex flex-1 items-center gap-3 text-left" aria-label="Editar">
+            <li key={f.id} className="flex items-center justify-between gap-2 rounded-xl bg-slate-900 px-4 py-3">
+              <button onClick={() => setEditingId(f.id)} className="flex min-w-0 flex-1 items-center gap-3 text-left" aria-label="Editar">
                 <span className="text-xl">{f.category.icon}</span>
-                <div>
-                  <p className="text-sm text-slate-100">
+                <div className="min-w-0">
+                  <p className="truncate text-sm text-slate-100">
                     {f.description}
                     {!f.active && <span className="ml-2 text-xs text-slate-500">(inactivo)</span>}
                   </p>
-                  <p className="text-xs text-slate-500">Se cobra el {formatDayOfMonth(f.dueDay)}</p>
+                  <p className="truncate text-xs text-slate-500">Se cobra el {formatDayOfMonth(f.dueDay)}</p>
                 </div>
               </button>
-              <div className="flex items-center gap-3">
+              <div className="flex shrink-0 items-center gap-3">
                 <span className="font-medium text-slate-100">{formatCOP(f.amount)}</span>
                 <button onClick={() => deleteExpense.mutate(f.id)} className="text-slate-500 hover:text-red-400">
                   ✕

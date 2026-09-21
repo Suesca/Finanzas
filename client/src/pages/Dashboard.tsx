@@ -39,11 +39,11 @@ export function Dashboard() {
             {data.upcomingDebtPayments.length > 0 && (
               <ul className="mt-2 flex flex-col gap-1 text-sm text-slate-400">
                 {data.upcomingDebtPayments.map((d) => (
-                  <li key={d.id} className="flex justify-between">
-                    <span>
+                  <li key={d.id} className="flex flex-wrap justify-between gap-x-2 gap-y-0.5">
+                    <span className="truncate">
                       {d.name} ({d.institution})
                     </span>
-                    <span>
+                    <span className="shrink-0">
                       {formatCOP(d.minPayment)} · {formatDayOfMonth(d.dueDay)}
                     </span>
                   </li>

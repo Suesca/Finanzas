@@ -11,9 +11,9 @@ export function AppLayout() {
   return (
     <div className="flex min-h-screen bg-slate-950 text-slate-100">
       <Sidebar />
-      <div className="flex-1">
+      <div className="min-w-0 flex-1">
         <SyncStatusBanner />
-        <main className="mx-auto max-w-3xl px-4 pb-28 pt-6 md:pb-10">
+        <main className="mx-auto max-w-3xl min-w-0 px-4 pb-28 pt-6 md:pb-10">
           <Outlet />
         </main>
       </div>

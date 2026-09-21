@@ -45,7 +45,7 @@ function EditDebtRow({ debt, onDone }: { debt: Debt; onDone: () => void }) {
           value={totalAmount}
           onChange={(e) => setTotalAmount(e.target.value.replace(/[^\d]/g, ""))}
           placeholder="Monto total"
-          className="flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
+          className="min-w-0 flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
         />
         <input
           type="tel"
@@ -53,7 +53,7 @@ function EditDebtRow({ debt, onDone }: { debt: Debt; onDone: () => void }) {
           value={remainingAmount}
           onChange={(e) => setRemainingAmount(e.target.value.replace(/[^\d]/g, ""))}
           placeholder="Saldo actual"
-          className="flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
+          className="min-w-0 flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
         />
       </div>
       <div className="flex gap-2">
@@ -63,7 +63,7 @@ function EditDebtRow({ debt, onDone }: { debt: Debt; onDone: () => void }) {
           value={minPayment}
           onChange={(e) => setMinPayment(e.target.value.replace(/[^\d]/g, ""))}
           placeholder="Pago mínimo"
-          className="flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
+          className="min-w-0 flex-1 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
         />
         <input
           type="number"
@@ -71,7 +71,7 @@ function EditDebtRow({ debt, onDone }: { debt: Debt; onDone: () => void }) {
           max={31}
           value={dueDay}
           onChange={(e) => setDueDay(e.target.value)}
-          className="w-20 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
+          className="w-16 shrink-0 rounded-lg bg-slate-800 px-2 py-1.5 text-white outline-none"
         />
       </div>
       <div className="flex gap-2">
@@ -137,16 +137,16 @@ export function Debts() {
             <EditDebtRow key={d.id} debt={d} onDone={() => setEditingId(null)} />
           ) : (
             <li key={d.id} className="rounded-xl bg-slate-900 p-4">
-              <div className="flex items-start justify-between">
-                <button onClick={() => setEditingId(d.id)} className="text-left" aria-label="Editar">
-                  <p className="text-sm text-slate-100">{d.name}</p>
-                  <p className="text-xs text-slate-500">{d.institution}</p>
+              <div className="flex items-start justify-between gap-2">
+                <button onClick={() => setEditingId(d.id)} className="min-w-0 flex-1 text-left" aria-label="Editar">
+                  <p className="truncate text-sm text-slate-100">{d.name}</p>
+                  <p className="truncate text-xs text-slate-500">{d.institution}</p>
                 </button>
-                <button onClick={() => deleteDebt.mutate(d.id)} className="text-slate-500 hover:text-red-400">
+                <button onClick={() => deleteDebt.mutate(d.id)} className="shrink-0 text-slate-500 hover:text-red-400">
                   ✕
                 </button>
               </div>
-              <div className="mt-3 flex items-center justify-between">
+              <div className="mt-3 flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
                 <span className="text-lg font-semibold text-red-400">{formatCOP(d.remainingAmount)}</span>
                 <span className="text-xs text-slate-500">
                   de {formatCOP(d.totalAmount)} · pago mínimo {formatCOP(d.minPayment)} · {formatDayOfMonth(d.dueDay)}
@@ -188,7 +188,7 @@ export function Debts() {
             value={totalAmount}
             onChange={(e) => setTotalAmount(e.target.value.replace(/[^\d]/g, ""))}
             placeholder="Monto total"
-            className="flex-1 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none placeholder:text-slate-500"
+            className="min-w-0 flex-1 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none placeholder:text-slate-500"
           />
           <input
             type="tel"
@@ -196,7 +196,7 @@ export function Debts() {
             value={remainingAmount}
             onChange={(e) => setRemainingAmount(e.target.value.replace(/[^\d]/g, ""))}
             placeholder="Saldo actual"
-            className="flex-1 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none placeholder:text-slate-500"
+            className="min-w-0 flex-1 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none placeholder:text-slate-500"
           />
         </div>
         <div className="flex gap-3">
@@ -206,7 +206,7 @@ export function Debts() {
             value={minPayment}
             onChange={(e) => setMinPayment(e.target.value.replace(/[^\d]/g, ""))}
             placeholder="Pago mínimo"
-            className="flex-1 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none placeholder:text-slate-500"
+            className="min-w-0 flex-1 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none placeholder:text-slate-500"
           />
           <input
             type="number"
@@ -214,7 +214,7 @@ export function Debts() {
             max={31}
             value={dueDay}
             onChange={(e) => setDueDay(e.target.value)}
-            className="w-24 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none"
+            className="w-20 shrink-0 rounded-lg bg-slate-800 px-3 py-2 text-white outline-none"
           />
         </div>
         <button
